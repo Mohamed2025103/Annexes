@@ -1,15 +1,25 @@
-<x-app-layout>
-    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.6.0-web/css/all.min.css') }}">
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+    <link rel="stylesheet" href="<?php echo e(asset('fontawesome-free-6.6.0-web/css/all.min.css')); ?>">
 
-    <x-slot name="header">
+     <?php $__env->slot('header', null, []); ?> 
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('agents autorité') }}
+            <?php echo e(__('agents autorité')); ?>
+
         </h2>
-    </x-slot>
+     <?php $__env->endSlot(); ?>
 
     <div class="py-12">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
-            <a href="{{ route('employees.create') }}">
+            <a href="<?php echo e(route('employees.create')); ?>">
                 <button class="add-btn" style="vertical-align:middle"><span>Ajouter un nouvel agent d'autorité</span></button>
             </a>
 
@@ -34,40 +44,49 @@
                             </tr>
                         </thead>
                         <tbody id="employeesTable" style="display:none;">
-                            @foreach ($employees as $employee)
+                            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td>
-                                    @if ($employee->picture)
-                                        <img src="{{ asset('storage/' . $employee->picture) }}" alt="Picture" class="h-12 w-12 rounded-full object-cover">
-                                    @else
+                                    <?php if($employee->picture): ?>
+                                        <img src="<?php echo e(asset('storage/' . $employee->picture)); ?>" alt="Picture" class="h-12 w-12 rounded-full object-cover">
+                                    <?php else: ?>
                                         <span>No Picture</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </td>
-                                <td>{{ $employee->code }}</td>
-                                <td>{{ $employee->first_name }}</td>
-                                <td>{{ $employee->last_name }}</td>
-                                <td>{{ $employee->address }}</td>
-                                <td>{{ $employee->cin }}</td>
-                                <td>{{ $employee->phone_number }}</td>
-                                <td>{{ optional($employee->province)->nom ?? 'N/A' }}</td>
+                                <td><?php echo e($employee->code); ?></td>
+                                <td><?php echo e($employee->first_name); ?></td>
+                                <td><?php echo e($employee->last_name); ?></td>
+                                <td><?php echo e($employee->address); ?></td>
+                                <td><?php echo e($employee->cin); ?></td>
+                                <td><?php echo e($employee->phone_number); ?></td>
+                                <td><?php echo e(optional($employee->province)->nom ?? 'N/A'); ?></td>
                                 <td>
-                                    <a href="{{ route('employees.edit', $employee->id) }}">
+                                    <a href="<?php echo e(route('employees.edit', $employee->id)); ?>">
                                         <button class="update-btn">Modifier&nbsp;&nbsp; <i class="fa-regular fa-pen-to-square"></i></button>
                                     </a>
-                                    <button class="delete-btn" data-employee-id="{{ $employee->id }}">Supprimer&nbsp;&nbsp;<i class="fa fa-trash"></i></button>
+                                    <button class="delete-btn" data-employee-id="<?php echo e($employee->id); ?>">Supprimer&nbsp;&nbsp;<i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
 
-<link rel="stylesheet" href="{{ asset('assets/style/table.css') }}">
-<script src="{{ asset('js/employees.js') }}"></script>
+<link rel="stylesheet" href="<?php echo e(asset('assets/style/table.css')); ?>">
+<script src="<?php echo e(asset('js/employees.js')); ?>"></script>
 
 
 
@@ -118,3 +137,4 @@
     }
 </script>
 
+<?php /**PATH C:\Users\dell\Downloads\province-app\province-app\resources\views/employees/index.blade.php ENDPATH**/ ?>

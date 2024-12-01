@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\City;
-use App\Models\Region;
+
 use App\Models\Province;
 use Illuminate\Http\Request;
 
@@ -20,29 +19,23 @@ class ProvincesController extends Controller
 
     public function create()
 {
-    $regions = Region::all(); // Assuming provinces belong to regions
-    $cities = City::all(); // Fetch all cities or filter based on selected region later
 
-    return view('provinces.create', compact('regions', 'cities'));
+    return view('provinces.create');
 }
 
 public function store(Request $request)
 {
     $validated = $request->validate([
-        'province_name' => 'required|string|max:255',
-        'region_id' => 'required|exists:regions,id', // Ensure the selected region exists
-        'city_id' => 'required|exists:cities,id', // Validate that city_id exists
+        'code' => 'required|string|max:255',
+        'nom' => 'required|string|max:255',
+        'adresse' => 'required|string|max:255',
+        'adresse_tel' => 'required|string|max:255',
 
     ]);
 
-    Province::create([
-        'province_name' => $validated['province_name'],
-        'region_id' => $validated['region_id'],
-        'city_id' => $validated['city_id'], // Include city_id
+    Province::create($validated);
 
-    ]);
-
-    return redirect()->route('provinces.employees')->with('success', 'Province created successfully.');
+    return redirect()->route('provinces.index')->with('success', 'Province created successfully.');
 }
 
 
@@ -50,24 +43,18 @@ public function store(Request $request)
 public function edit($id)
 {
     $province = Province::findOrFail($id);
-    $regions = Region::all(); // Load all regions to choose from
-    $cities = City::all(); // Load all cities to choose from
-    return view('provinces.edit', compact('province', 'regions', 'cities'));
+    return view('provinces.edit', compact('province'));
 }
 
 public function update(Request $request, $id)
 {
     $request->validate([
         'province_name' => 'required|string|max:255',
-        'region_id' => 'required|exists:regions,id',
-        'city_id' => 'required|exists:cities,id',
     ]);
 
     $province = Province::findOrFail($id);
     $province->update([
         'province_name' => $request->province_name,
-        'region_id' => $request->region_id,
-        'city_id' => $request->city_id,
     ]);
 
     return redirect()->route('provinces.index')->with('success', 'Province updated successfully!');

@@ -1,0 +1,2 @@
+<img src="<?php echo e(asset('assets/images/royaume-du-maroc-kingdom-of-morocco.png')); ?>" alt="Morocco Kingdom Logo" style="width:10rem">
+<?php /**PATH C:\Users\dell\Downloads\province-app\province-app\resources\views/components/application-logo.blade.php ENDPATH**/ ?>

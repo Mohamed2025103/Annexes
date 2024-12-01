@@ -2,88 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\City;
 use App\Models\Employee;
 use App\Models\Province;
 use Illuminate\Http\Request;
 
 class EmployeesController extends Controller
 {
+    // List all employees
     public function index()
     {
         $employees = Employee::with('province')->get();
         return view('employees.index', compact('employees'));
     }
 
-    // Create method to show the form
+    // Show the form for creating a new employee
     public function create()
     {
-        // Fetch cities and provinces for dropdown selection
-        $cities = City::all();
-        $provinces = Province::all();
-
-        return view('employees.create', compact('cities', 'provinces'));
+        $provinces = Province::all(); // Fetch all provinces
+        return view('employees.create', compact('provinces'));
     }
 
-    // Store method to save new employee
+    // Store a new employee
     public function store(Request $request)
-{
-    $request->validate([
-        'first_name' => 'required|string|max:255',
-        'last_name' => 'required|string|max:255',
-        'id_number' => 'required|integer',
-        'phone_number' => 'required|string|max:20',
-        'Employee_Area' => 'required|string|max:255',
-        'city_id' => 'required|integer',
-        'province_id' => 'required|integer',
-    ]);
+    {
+        // Validate inputs
+        $request->validate([
+            'code' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'cin' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:255',
+            'province_id' => 'required|exists:provinces,id',
+            'picture' => 'required|mimes:jpg,png,jpeg|max:5048', // Validate picture
+        ]);
 
-    // Create new employee
-    Employee::create($request->all());
+        // Handle file upload if it exists
+        // $path = null;
+        // if ($request->hasFile('picture')) {
+        //     $path = $request->file('picture')->store('public/agents');
+        //     $path = str_replace('public/', '', $path); // Remove "public/" for easy storage access
+        // }
 
-    return redirect()->route('employees.index')->with('success', 'Employee added successfully.');
-}
+        // Create employee
+        Employee::create([
+            'code' => $request->code,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'address' => $request->address,
+            'cin' => $request->cin,
+            'phone_number' => $request->phone_number,
+            'province_id' => $request->province_id,
+            // 'picture' => $path, // Save the file path
+        ]);
+
+        return redirect()->route('employees.index')->with('success', 'Agent added successfully!');
+    }
+
 
 
     // Show employees by province
     public function showByProvince($provinceId)
     {
-        // Retrieve employees for the specified province
         $employees = Employee::where('province_id', $provinceId)->get();
-
         return view('employees.index', compact('employees'));
     }
 
-    // Edit method to show the edit form
+    // Show the form for editing an employee
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
-        $cities = City::all(); // Fetch all cities for dropdown
-        $provinces = Province::all(); // Fetch all provinces for dropdown
-
-        return view('employees.edit', compact('employee', 'cities', 'provinces'));
+        $provinces = Province::all(); // Fetch all provinces
+        return view('employees.edit', compact('employee', 'provinces'));
     }
 
-    // Update method to save edited employee
+    // Update an existing employee
     public function update(Request $request, $id)
     {
         $request->validate([
+            'code' => 'required|string|max:20',           // Validate Code
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'id_number' => 'required|integer',
             'phone_number' => 'required|string|max:20',
-            'Employee_Area' => 'required|string|max:255',
-            'city_id' => 'required|integer',
-            'province_id' => 'required|integer',
+            'address' => 'required|string|max:255',       // Address (replaces Employee_Area)
+            'cin' => 'required|string|max:20',            // Validate CIN
+            'province_id' => 'required|exists:provinces,id'
         ]);
 
+        // Update the employee
         $employee = Employee::findOrFail($id);
-        $employee->update($request->all());
+        $employee->update($request->only(['code', 'first_name', 'last_name', 'phone_number', 'address', 'cin', 'province_id']));
 
-        return redirect()->route('employees.index')->with('success', 'Employee updated successfully.');
+        return redirect()->route('employees.index')->with('success', 'Agent mis à jour avec succès.');
     }
 
-    // Destroy method to delete an employee
+    // Delete an employee
     public function destroy($id)
     {
         $employee = Employee::findOrFail($id);

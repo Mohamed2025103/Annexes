@@ -2,7 +2,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Edit Annex') }}
+            {{ __('Modification') }}
         </h2>
     </x-slot>
 
@@ -14,30 +14,33 @@
                         @csrf
                         @method('PUT')
 
+                        <!-- Code -->
                         <div class="mb-4">
-                            <label for="province_name" class="block text-sm font-medium text-gray-700">Annex Name:</label>
-                            <input type="text" name="province_name" id="province_name" value="{{ $province->province_name }}" class="mt-1 block w-full" required>
+                            <label for="code" class="block text-sm font-medium text-gray-700">Code:</label>
+                            <input type="text" name="code" id="code" value="{{ $province->code }}" class="mt-1 block w-full" required>
                         </div>
 
+                        <!-- Nom (Name) -->
                         <div class="mb-4">
-                            <label for="region_id" class="block text-sm font-medium text-gray-700">Region:</label>
-                            <select name="region_id" id="region_id" class="mt-1 block w-full" required>
-                                @foreach ($regions as $region)
-                                    <option value="{{ $region->id }}" {{ $province->region_id == $region->id ? 'selected' : '' }}>{{ $region->region_name }}</option>
-                                @endforeach
-                            </select>
+                            <label for="nom" class="block text-sm font-medium text-gray-700">Nom:</label>
+                            <input type="text" name="nom" id="nom" value="{{ $province->nom }}" class="mt-1 block w-full" required>
                         </div>
 
+                        <!-- Adresse -->
                         <div class="mb-4">
-                            <label for="city_id" class="block text-sm font-medium text-gray-700">City:</label>
-                            <select name="city_id" id="city_id" class="mt-1 block w-full" required>
-                                @foreach ($cities as $city)
-                                    <option value="{{ $city->id }}" {{ $province->city_id == $city->id ? 'selected' : '' }}>{{ $city->city_name }}</option>
-                                @endforeach
-                            </select>
+                            <label for="adresse" class="block text-sm font-medium text-gray-700">Adresse:</label>
+                            <input type="text" name="adresse" id="adresse" value="{{ $province->adresse }}" class="mt-1 block w-full" required>
                         </div>
 
-                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Update Annex</button>
+                        <!-- Adresse Tél (Phone Number) -->
+                        <div class="mb-4">
+                            <label for="adresse_tel" class="block text-sm font-medium text-gray-700">Télephone:</label>
+                            <input type="text" name="adresse_tel" id="adresse_tel" value="{{ $province->adresse_tel }}" class="mt-1 block w-full" required>
+                        </div>
+
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">
+                            {{ __('Modifier') }}
+                        </button>
                     </form>
                 </div>
             </div>

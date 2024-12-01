@@ -29,12 +29,12 @@
             <!-- Register and Login Buttons -->
             <div class="flex space-x-4">
                 <!-- Register Button -->
-                <a href="{{ route('register') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+                <a href="<?php echo e(route('register')); ?>" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
                     Register
                 </a>
 
                 <!-- Login Button -->
-                <a href="{{ route('login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                <a href="<?php echo e(route('login')); ?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
                     Login
                 </a>
             </div>
@@ -44,10 +44,7 @@
     <!-- Main Section -->
     <div class="h-screen flex justify-center items-center bg-cover bg-center" style="background-image: url('images/accueil.jpg');">
         <!-- If you want to overlay text on the image -->
-        {{-- <div class="bg-black bg-opacity-50 text-center text-white p-8 rounded">
-            <h1 class="text-4xl font-extrabold mb-4">Welcome to Our Application</h1>
-            <p class="text-lg">Scroll to explore or log in to access the main dashboard.</p>
-        </div> --}}
+        
     </div>
 
 
@@ -82,3 +79,4 @@
 
 </body>
 </html>
+<?php /**PATH C:\Users\dell\Downloads\province-app\province-app\resources\views/welcome.blade.php ENDPATH**/ ?>

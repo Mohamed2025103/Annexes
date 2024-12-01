@@ -13,16 +13,15 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+            $table->string('code');                 // Added Code field
             $table->string('first_name');
             $table->string('last_name');
-            $table->integer('id_number')->unique();
             $table->string('phone_number');
-            $table->string('Employee_Area')->nullable();
-            $table->foreignId("province_id")->constrained()->onDelete('cascade');
-            $table->foreignId("city_id")->constrained()->onDelete('cascade'); // Add this line
+            $table->string('address')->nullable();   // Replaced Employee_Area with Address
+            $table->string('cin');                  // Added CIN field
+            $table->foreignId('province_id')->constrained()->onDelete('cascade');
+            $table->string('picture')->nullable(); // Add this column
             $table->timestamps();
-            $table->dropForeign(['region_id']); // Drop the foreign key if it exists
-            $table->dropColumn('region_id'); 
         });
     }
 
